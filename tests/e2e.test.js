@@ -444,6 +444,143 @@ let redId;
   check('hidden room credentials return 404', () => assert.equal(r.status, 404));
 }
 
+// ---------- 12. Security headers & static assets (audit fixes) ----------
+{
+  const res = await fetch(base + '/');
+  const h = res.headers;
+  check('CSP header present', () => {
+    const csp = h.get('content-security-policy') || '';
+    assert.ok(csp.includes("default-src 'self'"), 'default-src missing');
+    assert.ok(csp.includes("script-src 'self'"), 'script-src missing');
+    assert.ok(csp.includes("frame-ancestors 'none'"), 'frame-ancestors missing');
+    assert.ok(csp.includes("object-src 'none'"), 'object-src missing');
+  });
+  check('X-Content-Type-Options nosniff', () => assert.equal(h.get('x-content-type-options'), 'nosniff'));
+  check('X-Frame-Options DENY', () => assert.equal(h.get('x-frame-options'), 'DENY'));
+  check('Referrer-Policy set', () => assert.equal(h.get('referrer-policy'), 'strict-origin-when-cross-origin'));
+  check('Permissions-Policy set', () => assert.ok((h.get('permissions-policy') || '').includes('geolocation=()')));
+  check('Cross-Origin-Opener-Policy set', () => assert.equal(h.get('cross-origin-opener-policy'), 'same-origin'));
+  check('HSTS absent in test env', () => assert.equal(h.get('strict-transport-security'), null));
+  check('HTML cache-control is revalidate', () => assert.ok((h.get('cache-control') || '').includes('must-revalidate')));
+}
+{
+  const res = await fetch(base + '/health');
+  const body = await res.text();
+  check('GET /health returns 200 JSON', () => assert.equal(res.status, 200));
+  check('/health is JSON content-type', () => assert.ok((res.headers.get('content-type') || '').includes('application/json')));
+  check('/health reports ok:true + db check', () => {
+    const d = JSON.parse(body);
+    assert.equal(d.ok, true);
+    assert.equal(d.db, 'ok');
+    assert.ok(typeof d.uptime === 'number');
+  });
+}
+{
+  const res = await fetch(base + '/assets/does-not-exist.js');
+  const body = await res.text();
+  check('missing asset returns real 404', () => assert.equal(res.status, 404));
+  check('missing asset is not the SPA shell', () => assert.ok(!body.includes('<html')));
+}
+{
+  const res = await fetch(base + '/fonts/mukta-400-devanagari.woff2');
+  check('self-hosted font served (200) with 7-day cache', () => {
+    assert.equal(res.status, 200);
+    const cc = res.headers.get('cache-control') || '';
+    assert.ok(cc.includes('max-age=604800'), `cache-control was: ${cc}`);
+  });
+}
+{
+  const res = await fetch(base + '/assets/app.css');
+  check('css cache-control 3600', () => assert.ok((res.headers.get('cache-control') || '').includes('3600')));
+}
+{
+  const res = await fetch(base + '/no-such-page-xyz');
+  const body = await res.text();
+  check('unknown page returns 404', () => assert.equal(res.status, 404));
+  check('unknown page serves the branded 404 page', () => {
+    assert.ok(/<main[^>]*id="main"/.test(body), 'not the branded page');
+    assert.ok(/notfound\.js/.test(body), 'missing its own module script');
+  });
+  check('unknown page 404 is never cached', () => {
+    assert.equal(res.headers.get('cache-control'), 'no-store');
+  });
+}
+{
+  const res = await fetch(base + '/missing-page.html');
+  const body = await res.text();
+  check('unknown .html page also serves branded 404', () => {
+    assert.equal(res.status, 404);
+    assert.ok(/notfound\.js/.test(body), 'expected the branded 404 page');
+  });
+}
+{
+  const res = await fetch(base + '/robots.txt');
+  const body = await res.text();
+  check('robots.txt is real (not SPA shell)', () => {
+    assert.equal(res.status, 200);
+    assert.ok(!body.includes('<html'));
+    assert.ok(body.includes('Sitemap:'));
+    assert.ok(body.includes('Disallow: /admin.html'));
+  });
+}
+{
+  const res = await fetch(base + '/sitemap.xml');
+  const body = await res.text();
+  check('sitemap.xml is valid XML with urls', () => {
+    assert.equal(res.status, 200);
+    assert.ok(body.startsWith('<?xml'));
+    assert.ok(body.includes('<urlset'));
+    assert.ok((body.match(/<loc>/g) || []).length >= 5);
+  });
+}
+{
+  const res = await fetch(base + '/manifest.webmanifest');
+  const body = await res.text();
+  check('manifest parses as JSON', () => {
+    assert.equal(res.status, 200);
+    const m = JSON.parse(body);
+    assert.ok(m.name && m.start_url);
+  });
+}
+// ---------- 13. SEO + a11y markup on every page ----------
+const PAGES = ['index.html', 'about.html', 'tournaments.html', 'tournament.html', 'leaderboard.html', 'results.html', 'login.html', 'register.html', 'dashboard.html', 'admin.html'];
+for (const p of PAGES) {
+  const res = await fetch(base + '/' + p);
+  const html = await res.text();
+  check(`${p} has canonical link`, () => assert.ok(/rel="canonical"/.test(html)));
+  check(`${p} has og:title + twitter:card`, () => {
+    assert.ok(/property="og:title"/.test(html));
+    assert.ok(/name="twitter:card"/.test(html));
+  });
+  check(`${p} has skip link to #main`, () => assert.ok(/class="skiplink"[^>]*href="#main"/.test(html) || /href="#main"[^>]*class="skiplink"/.test(html)));
+  check(`${p} has main#main landmark`, () => assert.ok(/<main[^>]*id="main"/.test(html)));
+  check(`${p} has noscript notice`, () => assert.ok(/<noscript>/.test(html)));
+  check(`${p} links manifest`, () => assert.ok(/rel="manifest"/.test(html)));
+  check(`${p} has no inline <script> body (CSP-safe)`, () => {
+    const inlineScripts = html.match(/<script(?![^>]*\ssrc=)[^>]*>[\s\S]*?<\/script>/g) || [];
+    assert.equal(inlineScripts.length, 0, `found ${inlineScripts.length} inline script(s)`);
+  });
+}
+{
+  const res = await fetch(base + '/admin.html');
+  const html = await res.text();
+  check('private pages carry noindex', () => assert.ok(/name="robots" content="noindex/.test(html)));
+}
+{
+  const res = await fetch(base + '/');
+  const html = await res.text();
+  check('home page is indexable', () => assert.ok(/name="robots" content="index/.test(html)));
+  check('404 page has its own module script', () => assert.ok(html.length > 500));
+}
+{
+  const res = await fetch(base + '/404.html');
+  const html = await res.text();
+  check('404.html exists and is standalone', () => {
+    assert.equal(res.status, 200);
+    assert.ok(/notfound\.js/.test(html));
+  });
+}
+
 // ---------- report ----------
 server.close();
 fs.rmSync(tmp, { recursive: true, force: true });

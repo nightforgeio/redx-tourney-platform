@@ -1,0 +1,11 @@
+# RedX Gamerz - Free Fire tournaments
+# Public pages are indexable; account and admin surfaces are not.
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /dashboard.html
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /api/
+
+Sitemap: https://redx-tourney-platform.onrender.com/sitemap.xml

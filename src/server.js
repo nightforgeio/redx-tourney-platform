@@ -8,6 +8,6 @@ migrate(bootDb);
 bootDb.close();
 
 const app = createApp();
-app.listen(env.port, '0.0.0.0', () => {
-  console.log(`RedX Gamerz platform listening on :${env.port}`);
+app.listen(env.port, env.host, () => {
+  console.log(`RedX Gamerz platform listening on ${env.host}:${env.port}`);
 });

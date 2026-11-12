@@ -1,27 +1,41 @@
-# Render deployment — RedX Gamerz tournament platform
-# Free tier. The SQLite file lives on a persistent disk so data survives deploys.
+# Render blueprint - RedX Gamerz tournament platform.
+#
+# This file describes the service that is ACTUALLY live. Keep it in sync with
+# the dashboard, it is the only machine-readable record of the deploy config.
+#
+# Deliberate choices, each one learned the hard way from the live deploy:
+#  - plan: free       -> no payment card on the account, so no persistent disk.
+#  - DATA_DIR=./data  -> the SQLite file lives on the instance's ephemeral disk.
+#                        DATA RESETS ON EVERY DEPLOY. Attach the `disk:` block
+#                        below (needs a card on file) before real prize data is kept.
+#  - startCommand runs migrate + seed:admin first. seed-admin is idempotent: it
+#    exits 0 when an admin already exists, so redeploys never duplicate or reset it.
 services:
   - type: web
     name: redx-tourney-platform
     runtime: node
     plan: free
+    region: oregon
+    branch: main
     buildCommand: npm install
-    startCommand: npm run migrate && npm start
-    healthCheckPath: /
+    startCommand: npm run migrate && npm run seed:admin && npm start
+    healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
         value: "22.23.0"
       - key: JWT_SECRET
         generateValue: true
       - key: DATA_DIR
-        value: /var/data
+        value: ./data
       - key: ADMIN_USERNAME
-        sync: false
+        value: admin
       - key: ADMIN_EMAIL
-        sync: false
+        value: admin@redxgamerz.in
       - key: ADMIN_PASSWORD
         sync: false
-    disk:
-      name: redx-data
-      mountPath: /var/data
-      sizeGB: 1
+# Persistent storage - enable only after a payment card is on the account,
+# otherwise Render rejects the deploy with 402 Payment Required.
+#    disk:
+#      name: redx-data
+#      mountPath: /var/data
+#      sizeGB: 1

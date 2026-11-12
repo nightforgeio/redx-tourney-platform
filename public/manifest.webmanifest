@@ -1,0 +1,15 @@
+{
+  "name": "RedX Gamerz - Free Fire tournaments",
+  "short_name": "RedX Gamerz",
+  "description": "Free Fire tournaments run by RedX Gamerz. Free entry, room ID for approved players, prize money paid to UPI.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07090f",
+  "theme_color": "#07090f",
+  "lang": "hi",
+  "dir": "ltr",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -317,3 +317,15 @@ footer a:hover { color: var(--text); }
 .justcopied { animation: copypop .5s ease-out; }
 @keyframes copypop { 0% { box-shadow: 0 0 0 0 rgba(61, 220, 151, .5); } 100% { box-shadow: 0 0 0 12px rgba(61, 220, 151, 0); } }
 @media print { .brandbar, footer, .btn { display: none; } body { background: #fff; color: #000; } }
+
+/* ---- skip link: keyboard users get past the nav in one Tab ----
+   Visually hidden until focused; then it sits above the brand bar. */
+.skiplink {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--red); color: var(--on-red);
+  padding: 10px 14px; font-family: var(--display); font-weight: 600;
+  border-radius: 0 0 6px 0; text-decoration: none;
+}
+.skiplink:focus { left: 0; outline: 2px solid var(--gold); outline-offset: 2px; }
+/* Visible focus for every keyboard control (the design is dark, default rings vanish). */
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
