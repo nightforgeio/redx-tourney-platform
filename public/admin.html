@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — RedX Gamerz</title>
+<meta name="theme-color" content="#07090f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+<main>
+  <div class="wrap">
+    <div class="head">
+      <h1 class="mb0" id="adminTitle" data-t="ad.title">एडमिन</h1>
+    </div>
+    <nav class="tabs" aria-label="admin">
+      <a href="#overview" data-tab="overview" data-t="ad.overview">ओवरव्यू</a>
+      <a href="#tournaments" data-tab="tournaments" data-t="ad.tournaments">टूर्नामेंट</a>
+      <a href="#registrations" data-tab="registrations" data-t="ad.registrations">रजिस्ट्रेशन</a>
+      <a href="#matches" data-tab="matches" data-t="ad.matches">मैच और नतीजे</a>
+      <a href="#redemptions" data-tab="redemptions" data-t="ad.redemptions">पेमेंट</a>
+      <a href="#players" data-tab="players" data-t="ad.players">खिलाड़ी</a>
+      <a href="#audit" data-tab="audit" data-t="ad.audit">ऑडिट</a>
+    </nav>
+
+    <section id="tab-overview"></section>
+    <section id="tab-tournaments" hidden></section>
+    <section id="tab-registrations" hidden></section>
+    <section id="tab-matches" hidden></section>
+    <section id="tab-redemptions" hidden></section>
+    <section id="tab-players" hidden></section>
+    <section id="tab-audit" hidden></section>
+  </div>
+</main>
+<script type="module" src="/assets/pages/admin.js"></script>
+</body>
+</html>

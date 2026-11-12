@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register — RedX Gamerz</title>
+<meta name="theme-color" content="#07090f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+<main>
+  <div class="wrap" style="max-width:520px">
+    <section class="panel section reveal">
+      <h1 data-t="a.register">अपना अकाउंट बनाओ</h1>
+      <p class="muted small" data-t="a.register.body">एक अकाउंट, हर RedX Gamerz इवेंट के लिए। एंट्री फ्री है।</p>
+      <div id="alert"></div>
+      <form class="form mt2 two" id="form">
+        <div class="field">
+          <label for="username" data-t="f.username">यूजरनेम</label>
+          <input id="username" name="username" autocomplete="username" minlength="3" maxlength="24" required>
+        </div>
+        <div class="field">
+          <label for="email" data-t="f.email">ईमेल</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field full">
+          <label for="phone" data-t="f.phone">फोन <span class="muted tiny" data-t="f.optional">ऑप्शनल</span></label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="password" data-t="f.password">पासवर्ड</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <div class="field">
+          <label for="ff_uid" data-t="f.uid">Free Fire UID <span class="muted tiny" data-t="f.optional">ऑप्शनल</span></label>
+          <input id="ff_uid" name="ff_uid" maxlength="20">
+        </div>
+        <div class="field full">
+          <label for="ff_ign" data-t="f.ign">Free Fire IGN <span class="muted tiny" data-t="f.optional">ऑप्शनल</span></label>
+          <input id="ff_ign" name="ff_ign" maxlength="30">
+        </div>
+        <button class="btn primary wide full" type="submit" data-t="nav.register">रजिस्टर करें</button>
+      </form>
+      <p class="small muted mt2 mb0"><span data-t="a.have">पहले से रजिस्टर हो?</span> <a href="/login.html" data-t="a.login">लॉग इन</a></p>
+    </section>
+  </div>
+</main>
+<script type="module" src="/assets/pages/register.js"></script>
+</body>
+</html>

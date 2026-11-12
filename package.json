@@ -1,0 +1,27 @@
+{
+  "name": "redx-tourney-platform",
+  "version": "0.1.0",
+  "description": "RedX Gamerz — Free Fire tournament management platform (player + admin + wallet + redeem)",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node --no-warnings src/server.js",
+    "dev": "node --no-warnings --watch src/server.js",
+    "migrate": "node --no-warnings src/db/migrate.js",
+    "seed:admin": "node --no-warnings src/db/seed-admin.js",
+    "test": "node --no-warnings tests/e2e.test.js",
+    "backup": "node --no-warnings scripts/backup.js"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.1.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.25.76"
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My account — RedX Gamerz</title>
+<meta name="theme-color" content="#07090f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+<main>
+  <div class="wrap">
+    <div class="head">
+      <h1 class="mb0" id="dashTitle" data-t="a.overview">ओवरव्यू</h1>
+    </div>
+    <nav class="tabs" aria-label="dashboard">
+      <a href="#overview" data-tab="overview" data-t="a.overview">ओवरव्यू</a>
+      <a href="#profile" data-tab="profile" data-t="a.profile">मेरी प्रोफाइल</a>
+      <a href="#tournaments" data-tab="tournaments" data-t="a.mytourneys">मेरे टूर्नामेंट</a>
+      <a href="#results" data-tab="results" data-t="a.myresults">मेरे नतीजे</a>
+      <a href="#wallet" data-tab="wallet" data-t="a.wallet">मेरा वॉलेट</a>
+    </nav>
+
+    <section id="tab-overview"></section>
+    <section id="tab-profile" hidden></section>
+    <section id="tab-tournaments" hidden></section>
+    <section id="tab-results" hidden></section>
+    <section id="tab-wallet" hidden></section>
+  </div>
+</main>
+<script type="module" src="/assets/pages/dashboard.js"></script>
+</body>
+</html>

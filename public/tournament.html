@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tournament — RedX Gamerz</title>
+<meta name="theme-color" content="#07090f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+<main>
+  <div class="wrap">
+    <p class="mt0"><a class="small" href="/tournaments.html" data-t="t.back">सभी टूर्नामेंट</a></p>
+
+    <section id="tourney" class="section reveal"></section>
+
+    <div class="grid split">
+      <div>
+        <section id="room" class="section"></section>
+        <section class="section" aria-labelledby="boardH">
+          <div class="head"><h2 id="boardH" data-t="t.board">लीडरबोर्ड</h2></div>
+          <div id="board"></div>
+        </section>
+      </div>
+      <div>
+        <section class="section" aria-labelledby="matchesH">
+          <div class="head"><h2 id="matchesH" data-t="t.matches">मैच</h2></div>
+          <div id="matches"></div>
+        </section>
+        <section class="section" aria-labelledby="ptsH">
+          <div class="head"><h2 id="ptsH" data-t="t.points">पॉइंट टेबल</h2></div>
+          <div id="points"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+<script type="module" src="/assets/pages/tournament.js"></script>
+</body>
+</html>

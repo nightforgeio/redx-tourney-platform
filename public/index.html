@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RedX Gamerz — Free Fire tournaments</title>
+<meta name="description" content="Free Fire tournaments run by RedX Gamerz. Free entry, room ID for approved players, points scored automatically, prize money paid to UPI.">
+<meta name="theme-color" content="#07090f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/mukta-400-devanagari.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/rajdhani-700-devanagari.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+<main>
+  <div class="wrap">
+    <section class="section reveal" id="next" aria-labelledby="nextH"></section>
+
+    <section class="section reveal d1" aria-labelledby="upH">
+      <div class="head">
+        <h2 id="upH" data-t="home.upcoming">आने वाले इवेंट</h2>
+        <a class="small" href="/tournaments.html" data-t="home.viewall">सभी टूर्नामेंट</a>
+      </div>
+      <div id="upcoming" class="events"></div>
+    </section>
+
+    <div class="grid split">
+      <section class="section reveal d2" aria-labelledby="boardH">
+        <div class="head">
+          <h2 id="boardH" data-t="home.board">लीडरबोर्ड</h2>
+          <a class="small" href="/leaderboard.html" data-t="nav.board">लीडरबोर्ड</a>
+        </div>
+        <div id="board"></div>
+      </section>
+
+      <section class="section" aria-labelledby="resH">
+        <div class="head"><h2 id="resH" data-t="home.results">पिछले इवेंट का नतीजा</h2></div>
+        <div id="lastresult"></div>
+      </section>
+    </div>
+
+    <section class="section" aria-labelledby="howH">
+      <div class="head"><h2 id="howH" data-t="home.how">यह कैसे चलता है</h2></div>
+      <div class="steps">
+        <div class="step"><h3 data-t="how.1.t"></h3><p data-t="how.1.p"></p></div>
+        <div class="step"><h3 data-t="how.2.t"></h3><p data-t="how.2.p"></p></div>
+        <div class="step"><h3 data-t="how.3.t"></h3><p data-t="how.3.p"></p></div>
+        <div class="step"><h3 data-t="how.4.t"></h3><p data-t="how.4.p"></p></div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="stats">
+      <div class="panel grid three" id="stats"></div>
+    </section>
+  </div>
+</main>
+<script type="module" src="/assets/pages/home.js"></script>
+</body>
+</html>

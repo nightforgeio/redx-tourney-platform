@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in — RedX Gamerz</title>
+<meta name="theme-color" content="#07090f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+<main>
+  <div class="wrap" style="max-width:480px">
+    <section class="panel section reveal">
+      <h1 data-t="a.login">लॉग इन</h1>
+      <p class="muted small" data-t="a.login.body">जिस ईमेल या यूजरनेम से रजिस्टर किया था, वही डालो।</p>
+      <div id="alert"></div>
+      <form class="form mt2" id="form">
+        <div class="field">
+          <label for="identifier" data-t="f.identifier">ईमेल या यूजरनेम</label>
+          <input id="identifier" name="identifier" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password" data-t="f.password">पासवर्ड</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn primary wide" type="submit" data-t="a.login">लॉग इन</button>
+      </form>
+      <p class="small muted mt2 mb0"><span data-t="a.noaccount">नए हो?</span> <a href="/register.html" data-t="nav.register">रजिस्टर करें</a></p>
+    </section>
+  </div>
+</main>
+<script type="module" src="/assets/pages/login.js"></script>
+</body>
+</html>
